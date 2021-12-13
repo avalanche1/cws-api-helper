@@ -1,0 +1,40 @@
+# compile
+/.cache/
+/.parcel-cache/
+
+# build
+/build/plugin/dev/
+/build/plugin/prod/
+/build/plugin/preprod/
+/dist/
+
+# tests
+/tests/coverage/
+
+# dependencies
+/node_modules/
+/chromane_tools/node_modules/
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+# security
+CREDENTIALS.MD
+
+# spec & research
+/spec/
+/research/
+
+# Hidden
+/.git/
+/.idea/
+/.vscode/
+
+# macOS
+.DS_Store
+
+# temp files
+~*.*
+/src/project/testing_assets/
+TODO
+/src/content-script.js

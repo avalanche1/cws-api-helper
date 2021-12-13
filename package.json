@@ -1,0 +1,37 @@
+{
+  "name": "om-chain-cws-api",
+  "private": true,
+  "browserslist": [
+    "last 10 Chrome versions"
+  ],
+  "scripts": {
+    "start": "parcel src/entry --host localhost --lazy",
+    "build-extn-prod": "parcel build src/entry/content-script.ts --dist-dir src --no-source-maps && parcel build src/entry/background-script.ts --dist-dir src --no-source-maps && cd chromane_tools && node build.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-typescript-tsc": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard-react": "^11.0.1",
+    "eslint-plugin-functional": "^3.7.2",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jest-dom": "^3.9.2",
+    "eslint-plugin-no-unsanitized": "^4.0.1",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-testing-library": "^5.0.0",
+    "expect-more-jest": "^5.4.0",
+    "jest": "^27.4.3",
+    "jest-mock-axios": "^4.5.0",
+    "parcel": "^2.0.1",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.1",
+    "typescript": "^4.5.3"
+  }
+}
