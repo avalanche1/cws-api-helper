@@ -6,6 +6,7 @@ import {HTTPError} from "../../types/errors";
 import {Request_T} from "./types";
 
 export const REST = {get, post, /*delete*/ is_ok};
+
 export type {HTTPError};
 
 async function get<T>(argsObj: Request_T): Promise<HTTPError | T> {

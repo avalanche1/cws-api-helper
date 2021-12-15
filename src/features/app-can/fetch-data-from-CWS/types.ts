@@ -1,7 +1,8 @@
 // Explain: Responses are lengthy.
 /* eslint-disable max-lines */
 
-export type CWS_Response = {app: (NoUpdateResponse | UpdateExistsResponse)[]};
+export type UnparsedCWS_Response = ")]}' response body here";
+export type CWS_Response = {response: {app: (NoUpdateResponse | UpdateExistsResponse)[]}};
 
 type NoUpdateResponse = {
   appid: string;
@@ -28,6 +29,7 @@ type UpdateExistsResponse = {
       ];
     };
     manifest: {
+      // Explain: Extn latest available version, eg "1.0.3".
       version: string;
       packages: {
         package: [

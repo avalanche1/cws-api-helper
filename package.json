@@ -5,8 +5,14 @@
     "last 10 Chrome versions"
   ],
   "scripts": {
-    "start": "parcel src/entry --host localhost --lazy",
-    "build-extn-prod": "parcel build src/entry/content-script.ts --dist-dir src --no-source-maps && parcel build src/entry/background-script.ts --dist-dir src --no-source-maps && cd chromane_tools && node build.js"
+    "build": "parcel build src/entry/index.ts",
+    "build-and-run": "npm run build && npm run start",
+    "start": "node dist/main/index.js"
+  },
+  "targets": {
+    "main": {
+      "context": "node"
+    }
   },
   "dependencies": {
     "axios": "^0.24.0"
