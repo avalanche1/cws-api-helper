@@ -12,9 +12,9 @@
 
 export function log(text: string, data?: unknown): void {
   const finalText =
-    dayjs().format("YY-MM-DD HH:mm:ss SSS") +
-    " " +
+    dayjs().format("YY-MM-DD HH:mm:ss:SSS ") +
     text +
+    "\n" +
     (data !== undefined ? ` ${JSON.stringify(data)}` : "");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions

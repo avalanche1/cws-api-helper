@@ -30,6 +30,7 @@ export async function fetch_data_from_cws(
         "https://update.googleapis.com/service/update2/json",
       dataDescription: "CWS updates list",
       payload: construct_req_body_from(extnList),
+      log: false,
     });
     log("Received response from CWS:", response);
 
