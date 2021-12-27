@@ -1,10 +1,3 @@
-import {construct_req_body_from} from "./api/construct-req-body";
-import {REST} from "../../../utility-belt/helpers/http/REST";
-
-import {PRJ_CONFIG} from "../../../../project.config";
-
-import {CWS_Response, UnparsedCWS_Response} from "./types";
-
 /**
  * Fetches extn details from CWS endpoint.
  * @param extnList - extns, for which details need to be fetched from CWS.
@@ -28,18 +21,21 @@ import {CWS_Response, UnparsedCWS_Response} from "./types";
 export async function fetch_data_from_cws(
   extnList: ExtnList,
 ): Promise<Result[] | {error: Error}> {
+  log("Received extns to update:", extnList);
+
   try {
     const response = await REST.post<UnparsedCWS_Response>({
       url:
-        //  todo: test with proxy env.
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/strict-boolean-expressions
-        (PRJ_CONFIG.USE_PROXY ? (process.env as {PROXY_URL: string}).PROXY_URL : "") +
+        (PRJ_CONFIG.PROXY.ENABLED ? PRJ_CONFIG.PROXY.URL : "") +
         "https://update.googleapis.com/service/update2/json",
       dataDescription: "CWS updates list",
       payload: construct_req_body_from(extnList),
     });
+    log("Received response from CWS:", response);
 
     if (REST.is_ok(response)) {
+      // Explain: CWS returns )]}' string as response head; trim it to parse the data.
+      // eslint-disable-next-line no-magic-numbers
       const parsedResponse = (JSON.parse(response.substring(4, Infinity)) as CWS_Response)
         .response;
       const result: Result[] = parsedResponse.app.map(
@@ -63,9 +59,15 @@ export async function fetch_data_from_cws(
               };
         },
       );
+
+      log("Extns processing result:", result);
       return result;
-    } else return {error: new Error(`Request error: ${response}`)};
+    } else {
+      log("Received error from CWS server", response);
+      return {error: new Error(`Response error: ${response}`)};
+    }
   } catch (err) {
+    log("Error occurred, while fetching data", err);
     return {error: new Error(`Unknown error: ${err as string}`)};
   }
 }
@@ -76,9 +78,18 @@ type ExtnDescriptor = {id: string; version: string};
 type Result = IncorrectExtnIdResult | NoUpdateResult | UpdateExistsResult;
 
 type IncorrectExtnIdResult = {id: string} & {status: "error-invalidAppId"};
+
 type NoUpdateResult = {id: string} & {status: "noupdate"};
 type UpdateExistsResult = {
   status: "update";
   url: string;
   latestVersion: string;
 } & {id: string};
+
+import {construct_req_body_from} from "./api/construct-req-body";
+import {REST} from "../../../utility-belt/helpers/http/REST";
+import {log} from "../log-operations/log";
+
+import {PRJ_CONFIG} from "../../../../project.config";
+
+import {CWS_Response, UnparsedCWS_Response} from "./types";

@@ -13,5 +13,5 @@ export type Request_T = {
   log?: boolean;
   dataDescription: string;
   returnFullResponse?: true;
-  errorLoggingFn?: (err: unknown) => Promise<void>;
+  errorLoggingFn?: (err: unknown, moduleName: string) => Promise<void>;
 };

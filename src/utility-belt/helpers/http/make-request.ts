@@ -41,12 +41,17 @@ export async function make_request<T>(
       ? (axiosResponse as AxiosResponse<T>)
       : (axiosResponse.data as T);
   } catch (err) {
-    if (args.errorLoggingFn) void args.errorLoggingFn(err);
+    if (args.errorLoggingFn) void args.errorLoggingFn(err, "make-request");
 
-    devprint.error("Error: ", is_AxiosError(err) ? `${err.code} ${err.response}` : err);
+    devprint.error(
+      "Error: ",
+      is_AxiosError(err) && err.response
+        ? `${err.response.status}: ${err.response.statusText}: ${err.response.data}`
+        : JSON.stringify(err),
+    );
 
     if (is_AxiosError(err)) {
-      const errorCode = Number(err.code);
+      const errorCode = err.response?.status ?? 0;
       if (errorCode === HTTP_RC.NOT_FOUND) return ERRORS.REMOTE_DATA_NOT_FOUND;
       // Explain: Too many requests || 5xx codes - server-side errors; retry n times.
       else if (
@@ -59,9 +64,10 @@ export async function make_request<T>(
             ? ERRORS.TOO_MANY_REQUESTS
             : ERRORS.SERVER;
         }
-        await for_ms(TIME.ONE_SECOND * ((retryCount + 1) * 5));
+        await for_ms(TIME.FIVE_SECONDS * (retryCount + 1));
         retryCount++;
-        await make_request(args);
+
+        return make_request(args);
         // Explain: 4xx codes - incorrectly formed request data (header | body).
       } else if (errorCode >= HTTP_RC.BAD_REQUEST && errorCode < HTTP_RC.SERVER_ERROR)
         return ERRORS.INCORRECT_REQUEST_DATA;

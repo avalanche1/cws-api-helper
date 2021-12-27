@@ -21,7 +21,7 @@ module.exports = {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/features/**/*.{ts,tsx}"],
+  collectCoverageFrom: ["src/**/*.{ts,tsx}"],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "tests/coverage",
@@ -61,7 +61,7 @@ module.exports = {
   // https://huafu.github.io/ts-jest/user/config/diagnostics#advanced-options
   globals: {
     "ts-jest": {
-      diagnostics: false,
+      isolatedModules: true,
       //   {
       //   // Dont throw on compiler errors.
       //   warnOnly: true,

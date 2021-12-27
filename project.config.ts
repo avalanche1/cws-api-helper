@@ -1,3 +1,7 @@
 export const PRJ_CONFIG = {
-  USE_PROXY: false,
-} as const;
+  LOGGING: {ENABLE_REMOTE: false, URL: ""},
+  PROXY: {
+    ENABLED: false,
+    URL: "https://cors-anywhere.herokuapp.com:443/",
+  },
+};

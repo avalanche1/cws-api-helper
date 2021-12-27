@@ -2,7 +2,7 @@ import {make_request} from "./make-request";
 
 import {ERRORS} from "../../constants/errors";
 
-import {HTTPError} from "../../types/errors";
+import {HTTPError} from "../../types/errors.d";
 import {Request_T} from "./types";
 
 export const REST = {get, post, /*delete*/ is_ok};
